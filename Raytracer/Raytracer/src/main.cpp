@@ -231,8 +231,8 @@ void CreateFrameBufferTexture()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-GLuint vertexArrayObject;
-GLuint vertexBufferObject;
+GLuint vertexArrayObject = 0;
+GLuint vertexBufferObject = 0;
 GLbyte byteBuffer[] = 
 {
 	(GLbyte)-1, (GLbyte)-1,
@@ -259,7 +259,6 @@ void QuadFullScreenVAO()
 
 void init()
 {
-
 	if (glfwInit() != GL_TRUE)
 	{
 		std::cout << "Failed to Initialise\n";
@@ -279,6 +278,14 @@ void init()
 	videMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 	glfwSetWindowPos(window, (videMode->width - width)/2, (videMode->height - height)/2);
 	glfwMakeContextCurrent(window);
+
+	// Initialize GLEW
+	glewExperimental = GL_TRUE;
+	if (glewInit() != GLEW_OK) {
+		fprintf(stderr, "Failed to initialize GLEW\n");
+		return;
+	}
+
 	glfwSwapInterval(1);
 	glfwShowWindow(window);
 

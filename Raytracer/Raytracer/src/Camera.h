@@ -52,3 +52,52 @@ private:
 	float farDist;
 };
 
+class CCamera1
+{
+private:
+	float fn = 0.001f;
+	float ff = 10.0f;
+	float fl = -0.05f;
+	float fr = 0.05f;
+	float ft = 0.05f;
+	float fb = -0.05f;
+
+	bool refreshViewMatrix = true;
+	bool refreshProjectionMatrix = true;
+	bool refreshInverseProjectionViewMatrix = true;
+
+	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+
+	glm::vec3 right = glm::vec3(1.0f, 0.0f, 0.0f);
+
+	glm::mat4 projectionMatrix;
+
+	glm::mat4 viewMatrix;
+
+	glm::mat4 invViewProjectionMatrix;
+
+	/**
+	* Orthographic projection is inherently different from perspective
+	* projection.
+	*/
+	bool orthographic;
+
+public:
+	CCamera1();
+
+	void SetFrustumPerspective(float fovY, float aspect, float near, float far);
+	void SetFrustumPerspective(float fovY, float aspect, float near, float far,
+		int tilesX, int tilesY, int tileX, int tileY);
+
+	void SetOrthographic(bool value);
+
+	void SetFrustumLeft(float left);
+	void SetFrustumRight(float right);
+	void SetFrustumBottom(float bottom);
+	void SetFrustumTop(float top);
+	void SetFrustumNear(float near);
+	void SetFrustumFar(float far);
+
+};
+

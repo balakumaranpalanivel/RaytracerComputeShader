@@ -1,4 +1,6 @@
 #include "Camera.h"
+#include <math.h>
+#include <cmath>
 
 CCamera::CCamera() {
 }
@@ -231,6 +233,107 @@ void CCamera::setRotation(glm::mat4 rotMatrix) {
 
 void CCamera::setPosition(glm::vec3 pos) {
 	position = pos;
+}
+
+/*
+	CCamera1
+*/
+CCamera1::CCamera1()
+{
+
+}
+
+void CCamera1::SetOrthographic(bool value)
+{
+	if (value == this->orthographic)
+	{
+		return;
+	}
+
+	this->orthographic = value;
+	refreshProjectionMatrix = true;
+	refreshInverseProjectionViewMatrix = true;
+}
+
+void CCamera1::SetFrustumLeft(float left)
+{
+	if (this->fl == left) {
+		return;
+	}
+	this->fl = left;
+	refreshProjectionMatrix = true;
+	refreshInverseProjectionViewMatrix = true;
+}
+void CCamera1::SetFrustumRight(float right)
+{
+	if (this->fr == right) {
+		return;
+	}
+	this->fr = right;
+	refreshProjectionMatrix = true;
+	refreshInverseProjectionViewMatrix = true;
+}
+void CCamera1::SetFrustumBottom(float bottom)
+{
+	if (this->fb == bottom) {
+		return;
+	}
+	this->fb = bottom;
+	refreshProjectionMatrix = true;
+	refreshInverseProjectionViewMatrix = true;
+}
+void CCamera1::SetFrustumTop(float top)
+{
+	if (this->ft == top) {
+		return;
+	}
+	this->ft = top;
+	refreshProjectionMatrix = true;
+	refreshInverseProjectionViewMatrix = true;
+}
+void CCamera1::SetFrustumNear(float near)
+{
+	if (this->fn == near) {
+		return;
+	}
+	this->fn = near;
+	refreshProjectionMatrix = true;
+	refreshInverseProjectionViewMatrix = true;
+}
+void CCamera1::SetFrustumFar(float far)
+{
+	if (this->ff == far) {
+		return;
+	}
+	this->ff = far;
+	refreshProjectionMatrix = true;
+	refreshInverseProjectionViewMatrix = true;
+}
+
+void CCamera1::SetFrustumPerspective(float fovY, float aspect, float near, float far)
+{
+	SetFrustumPerspective(fovY, aspect, near, far, 1, 1, 0, 0);
+}
+
+void CCamera1::SetFrustumPerspective(float fovY, float aspect, float near, float far,
+	int tilesX, int tilesY, int tileX, int tileY)
+{
+	SetOrthographic(false);
+	// degree to radian conversion
+	float h = (float)tan(fovY * 0.0174533 * 0.5f) * near;
+	float w = aspect;
+	float left = -w + (float)tileX / tilesX * 2.0f * w;
+	float right = left + (float) 1.0f / tilesX * 2.0f * w;
+	float bottom = -h + (float)tileY / tilesY * 2.0f * h;
+	float top = bottom + (float) 1.0f / tilesY * 2.0f * h;
+
+	SetFrustumLeft(left);
+	SetFrustumRight(right);
+	SetFrustumBottom(bottom);
+	SetFrustumTop(top);
+	SetFrustumNear(near);
+	SetFrustumFar(far);
+
 }
 
 

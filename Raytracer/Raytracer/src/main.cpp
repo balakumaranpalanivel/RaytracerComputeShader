@@ -17,6 +17,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
+#include "Camera.h"
 
 // Macro for indexing vertex buffer
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
@@ -257,6 +258,8 @@ void QuadFullScreenVAO()
 	glBindVertexArray(0);
 }
 
+CCamera camera;
+
 void init()
 {
 	if (glfwInit() != GL_TRUE)
@@ -293,6 +296,13 @@ void init()
 	CreateFrameBufferTexture();
 	// Create a Vertex Array Object with full-screen quad Vertex Buffer Object
 	QuadFullScreenVAO();
+
+	// Create Compute Shader Program
+
+	// Create Quad shader Program
+
+	camera = CCamera();
+
 
 }
 

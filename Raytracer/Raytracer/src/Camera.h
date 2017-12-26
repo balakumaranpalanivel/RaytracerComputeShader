@@ -67,6 +67,8 @@ private:
 	bool refreshInverseProjectionViewMatrix = true;
 
 	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 direction = glm::vec3(0.0f, 0.0f, -1.0f);
+
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 
 	glm::vec3 right = glm::vec3(1.0f, 0.0f, 0.0f);
@@ -83,6 +85,11 @@ private:
 	*/
 	bool orthographic;
 
+	glm::vec3 tmp0;
+	glm::vec3 tmp1;
+	glm::vec3 tmp2;
+	glm::vec4 tmp3;
+
 public:
 	CCamera1();
 
@@ -91,6 +98,7 @@ public:
 		int tilesX, int tilesY, int tileX, int tileY);
 
 	void SetOrthographic(bool value);
+	void SetDirection(glm::vec3 direction);
 
 	void SetFrustumLeft(float left);
 	void SetFrustumRight(float right);

@@ -282,6 +282,7 @@ void CCamera1::SetFrustumBottom(float bottom)
 	refreshProjectionMatrix = true;
 	refreshInverseProjectionViewMatrix = true;
 }
+
 void CCamera1::SetFrustumTop(float top)
 {
 	if (this->ft == top) {
@@ -291,6 +292,7 @@ void CCamera1::SetFrustumTop(float top)
 	refreshProjectionMatrix = true;
 	refreshInverseProjectionViewMatrix = true;
 }
+
 void CCamera1::SetFrustumNear(float near)
 {
 	if (this->fn == near) {
@@ -300,6 +302,7 @@ void CCamera1::SetFrustumNear(float near)
 	refreshProjectionMatrix = true;
 	refreshInverseProjectionViewMatrix = true;
 }
+
 void CCamera1::SetFrustumFar(float far)
 {
 	if (this->ff == far) {
@@ -336,6 +339,16 @@ void CCamera1::SetFrustumPerspective(float fovY, float aspect, float near, float
 
 }
 
+void CCamera1::SetDirection(glm::vec3 direction)
+{
+	if (this->direction == direction)
+	{
+		return;
+	}
+	this->direction = direction;
+	refreshViewMatrix = true;
+	refreshInverseProjectionViewMatrix = true;
+}
 
 
 

@@ -113,5 +113,9 @@ public:
 	void SetPosition(glm::vec3 pos);
 	inline glm::vec3 GetUp() { return up; }
 	void SetUp(glm::vec3 pos);
+	inline glm::vec3 GetRight() { return right; }
+
+	glm::mat4 GetProjectionMatrix();
+	void DoRefreshProjectionMatrix();
 };
 

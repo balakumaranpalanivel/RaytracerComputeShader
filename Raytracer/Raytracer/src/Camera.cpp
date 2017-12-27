@@ -401,4 +401,34 @@ void CCamera1::SetUp(glm::vec3 pos)
 	refreshInverseProjectionViewMatrix = true;
 }
 
+glm::mat4 CCamera1::GetProjectionMatrix()
+{
+	if (refreshProjectionMatrix)
+	{
+		DoRefreshProjectionMatrix();
+	}
+	return projectionMatrix;
+}
+
+void CCamera1::DoRefreshProjectionMatrix()
+{
+	if (!orthographic)
+	{
+		projectionMatrix = glm::mat4(
+			2.0f * fn / (fr - fl), 0.0f, (fr + fl) / (fr - fl), 0.0f,
+			0.0f, 2.0f * fn / (ft - fb), (ft + fb) / (ft - fb), 0.0f,
+			0.0f, 0.0f, -(ff + fn) / (ff - fn), -2.0f * ff * fn / (ff - fn),
+			0.0f, 0.0f, -1.0f, 0.0f
+		);
+	}
+	else
+	{
+		projectionMatrix = glm::mat4(
+			2.0f / (fr - fl), 0.0f, 0.0f, -(fr + fl) / (fr - fl),
+			0.0f, 2.0f / (ft - fb), 0.0f, -(ft + fb) / (ft - fb),
+			0.0f, 0.0f, -2.0f / (ff - fn), -(ff + fn) / (ff - fn),
+			0.0f, 0.0f, 0.0f, 1.0f
+		);
+	}
+}
 

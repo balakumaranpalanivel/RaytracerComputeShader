@@ -457,3 +457,17 @@ glm::mat4 CCamera1::GetInverseProjectionViewMatrix()
 	}
 	return invViewProjectionMatrix;
 }
+
+glm::vec3 CCamera1::GetEyeRay(float x, float y)
+{
+	tmp3 = glm::vec4(x, y, 0.0f, 1.0f);
+	glm::mat4 invMat = GetInverseProjectionViewMatrix();
+
+	//	MUST_DO - Scaling
+	//	tmp3 = glm::scale(
+
+	tmp0 = glm::vec3(tmp3.x, tmp3.y, tmp3.z);
+	glm::vec3 res = tmp0 - position;
+
+	return res;
+}

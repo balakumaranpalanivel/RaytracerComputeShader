@@ -120,5 +120,7 @@ public:
 	glm::mat4 GetViewMatrix();
 	void DoRefreshInverseProjectionViewMatrix();
 	glm::mat4 GetInverseProjectionViewMatrix();
+
+	glm::vec3 GetEyeRay(float x, float y);
 };
 

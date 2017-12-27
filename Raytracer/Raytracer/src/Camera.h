@@ -109,5 +109,9 @@ public:
 
 	void DoRefreshViewMatrix();
 
+	inline glm::vec3 GetPosition() { return position;  }
+	void SetPosition(glm::vec3 pos);
+	inline glm::vec3 GetUp() { return up; }
+	void SetUp(glm::vec3 pos);
 };
 

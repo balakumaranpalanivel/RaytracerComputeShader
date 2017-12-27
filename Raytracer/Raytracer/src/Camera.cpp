@@ -377,8 +377,28 @@ void CCamera1::DoRefreshViewMatrix()
 	refreshViewMatrix = false;
 }
 
+void CCamera1::SetPosition(glm::vec3 pos)
+{
+	if (this->position == pos)
+	{
+		return;
+	}
 
+	this->position = pos;
+	refreshViewMatrix = true;
+	refreshInverseProjectionViewMatrix = true;
+}
 
+void CCamera1::SetUp(glm::vec3 pos)
+{
+	if (this->up == pos)
+	{
+		return;
+	}
 
+	this->up = pos;
+	refreshViewMatrix = true;
+	refreshInverseProjectionViewMatrix = true;
+}
 
 

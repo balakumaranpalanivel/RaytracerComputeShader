@@ -117,5 +117,8 @@ public:
 
 	glm::mat4 GetProjectionMatrix();
 	void DoRefreshProjectionMatrix();
+	glm::mat4 GetViewMatrix();
+	void DoRefreshInverseProjectionViewMatrix();
+	glm::mat4 GetInverseProjectionViewMatrix();
 };
 

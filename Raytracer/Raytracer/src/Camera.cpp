@@ -432,3 +432,28 @@ void CCamera1::DoRefreshProjectionMatrix()
 	}
 }
 
+glm::mat4 CCamera1::GetViewMatrix()
+{
+	if (refreshViewMatrix)
+	{
+		DoRefreshViewMatrix();
+	}
+	return viewMatrix;
+}
+	
+void CCamera1::DoRefreshInverseProjectionViewMatrix()
+{
+	invViewProjectionMatrix = GetProjectionMatrix();
+	invViewProjectionMatrix = invViewProjectionMatrix * GetViewMatrix();
+	invViewProjectionMatrix = glm::inverse(invViewProjectionMatrix);
+	refreshInverseProjectionViewMatrix = false;
+}
+
+glm::mat4 CCamera1::GetInverseProjectionViewMatrix()
+{
+	if (refreshViewMatrix)
+	{
+		DoRefreshInverseProjectionViewMatrix();
+	}
+	return invViewProjectionMatrix;
+}

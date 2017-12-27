@@ -350,6 +350,33 @@ void CCamera1::SetDirection(glm::vec3 direction)
 	refreshInverseProjectionViewMatrix = true;
 }
 
+void CCamera1::DoRefreshViewMatrix()
+{
+	tmp0 = direction;
+	tmp0 = glm::normalize(tmp0);
+	tmp1 = up;
+	tmp1 = glm::normalize(tmp1);
+	
+	// CHECK
+	tmp1 = glm::cross(tmp0, tmp1);
+	tmp2 = glm::cross(tmp1, tmp0);
+
+	viewMatrix = glm::mat4(
+		tmp1.x, tmp1.y, tmp1.z,
+		-tmp1.x * position.x - tmp1.y * position.y - tmp1.z * position.z,
+
+		tmp2.x, tmp2.y, tmp2.z,
+		-tmp2.x * position.x - tmp2.y * position.y - tmp2.z * position.z,
+
+		tmp0.x, tmp0.y, tmp0.z,
+		-tmp0.x * position.x - tmp0.y * position.y - tmp0.z * position.z,
+
+		0.0f, 0.0f, 0.0f, 1.0f
+	);
+
+	refreshViewMatrix = false;
+}
+
 
 
 

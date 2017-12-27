@@ -107,5 +107,7 @@ public:
 	void SetFrustumNear(float near);
 	void SetFrustumFar(float far);
 
+	void DoRefreshViewMatrix();
+
 };
 

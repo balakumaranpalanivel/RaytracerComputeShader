@@ -258,7 +258,7 @@ void QuadFullScreenVAO()
 	glBindVertexArray(0);
 }
 
-CCamera camera;
+CCamera1 camera;
 
 void init()
 {
@@ -301,8 +301,15 @@ void init()
 
 	// Create Quad shader Program
 
-	camera = CCamera();
+	camera = CCamera1();
+	camera.SetFrustumPerspective(60.0f, (float)width / height, 1.0f, 2.0f);
+	// TODO
+	//camera.SetLookAt
 
+}
+
+void trace()
+{
 
 }
 

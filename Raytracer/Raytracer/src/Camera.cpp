@@ -463,8 +463,9 @@ glm::vec3 CCamera1::GetEyeRay(float x, float y)
 	tmp3 = glm::vec4(x, y, 0.0f, 1.0f);
 	glm::mat4 invMat = GetInverseProjectionViewMatrix();
 
-	//	TODO - Scaling
-	//	tmp3 = glm::scale(
+	//	TODO - Scaling -- Is this just normalising
+	// cause the source is just scaling by w
+	tmp3 = glm::normalize(tmp3);
 
 	tmp0 = glm::vec3(tmp3.x, tmp3.y, tmp3.z);
 	glm::vec3 res = tmp0 - position;

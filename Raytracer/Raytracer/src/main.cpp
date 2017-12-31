@@ -303,9 +303,7 @@ void init()
 
 	camera = CCamera1();
 	camera.SetFrustumPerspective(60.0f, (float)width / height, 1.0f, 2.0f);
-	// TODO
-	//camera.SetLookAt
-
+	camera.SetLookAt(glm::vec3(3.0f, 2.0f, 7.0f), glm::vec3(0.0f, 0.5f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 void trace()

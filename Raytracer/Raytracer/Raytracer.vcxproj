@@ -140,8 +140,8 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="src\shaders\simpleFragmentShader.txt" />
-    <Text Include="src\shaders\simpleVertexShader.txt" />
+    <Text Include="src\shaders\quadFragmentShader.txt" />
+    <Text Include="src\shaders\quadVertexShader.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera.h" />

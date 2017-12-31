@@ -106,6 +106,7 @@ public:
 	void SetFrustumTop(float top);
 	void SetFrustumNear(float near);
 	void SetFrustumFar(float far);
+	void SetLookAt(glm::vec3 position, glm::vec3 lookAt, glm::vec3 up);
 
 	void DoRefreshViewMatrix();
 

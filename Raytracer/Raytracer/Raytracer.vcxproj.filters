@@ -26,10 +26,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="src\shaders\simpleFragmentShader.txt">
+    <Text Include="src\shaders\quadFragmentShader.txt">
       <Filter>Shaders</Filter>
     </Text>
-    <Text Include="src\shaders\simpleVertexShader.txt">
+    <Text Include="src\shaders\quadVertexShader.txt">
       <Filter>Shaders</Filter>
     </Text>
   </ItemGroup>

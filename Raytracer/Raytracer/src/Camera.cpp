@@ -471,3 +471,18 @@ glm::vec3 CCamera1::GetEyeRay(float x, float y)
 
 	return res;
 }
+
+void CCamera1::SetLookAt(glm::vec3 position, glm::vec3 lookAt, glm::vec3 up)
+{
+	SetPosition(position);
+	tmp0 = up;
+	tmp0 = glm::normalize(tmp0);
+	tmp1 = lookAt;
+	tmp1 = tmp1 - position;
+	tmp1 = glm::normalize(tmp1);
+	SetDirection(tmp1);
+	right = glm::cross(tmp1, tmp0);
+	right = glm::normalize(right);
+	tmp0 = glm::cross(right, tmp1);
+	SetUp(tmp0);
+}

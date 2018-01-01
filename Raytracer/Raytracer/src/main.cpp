@@ -90,8 +90,8 @@ GLuint CompileShaders()
     }
 
 	// Create two shader objects, one for the vertex, and one for the fragment shader
-    AddShader(shaderProgramID, "../Raytracer/src/shaders/simpleVertexShader.txt", GL_VERTEX_SHADER);
-    AddShader(shaderProgramID, "../Raytracer/src/shaders/simpleFragmentShader.txt", GL_FRAGMENT_SHADER);
+    AddShader(shaderProgramID, "../Raytracer/src/shaders/quadVertexShader.txt", GL_VERTEX_SHADER);
+    AddShader(shaderProgramID, "../Raytracer/src/shaders/quadFragmentShader.txt", GL_FRAGMENT_SHADER);
 
     GLint Success = 0;
     GLchar ErrorLog[1024] = { 0 };
@@ -258,6 +258,12 @@ void QuadFullScreenVAO()
 	glBindVertexArray(0);
 }
 
+// Creating the shader program that actually does the ray tracing
+GLuint CreateRayTracingProgram()
+{
+	return CompileShaders();
+}
+
 CCamera1 camera;
 
 void init()
@@ -298,6 +304,7 @@ void init()
 	QuadFullScreenVAO();
 
 	// Create Compute Shader Program
+	GLuint rayTracingProgram = CreateRayTracingProgram();
 
 	// Create Quad shader Program
 

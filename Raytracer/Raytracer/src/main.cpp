@@ -258,10 +258,21 @@ void QuadFullScreenVAO()
 	glBindVertexArray(0);
 }
 
+GLuint rayTracingProgram, quadProgram;
+int eyeUniform, ray00Uniform, ray10Uniform, ray01Uniform, ray11Uniform;
+
 // Creating the shader program that actually does the ray tracing
 GLuint CreateRayTracingProgram()
 {
 	return CompileShaders();
+}
+
+// Initialise Ray Tracing Program
+GLuint InitRayTracingProgram()
+{
+	glUseProgram(rayTracingProgram);
+	
+	glUseProgram(0);
 }
 
 CCamera1 camera;
@@ -304,7 +315,7 @@ void init()
 	QuadFullScreenVAO();
 
 	// Create Compute Shader Program
-	GLuint rayTracingProgram = CreateRayTracingProgram();
+	rayTracingProgram = CreateRayTracingProgram();
 
 	// Create Quad shader Program
 

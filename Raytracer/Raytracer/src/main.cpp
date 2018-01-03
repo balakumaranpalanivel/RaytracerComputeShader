@@ -381,6 +381,7 @@ void init()
 
 	// Create Quad shader Program
 	quadProgram = CreateQuadProgram();
+	InitQuadProgram();
 
 	camera = CCamera1();
 	camera.SetFrustumPerspective(60.0f, (float)width / height, 1.0f, 2.0f);
@@ -388,8 +389,61 @@ void init()
 		glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
+int NextPowerOfTwo(int param)
+{
+	int x = param;
+	x--;
+	x |= x >> 1; // handle 2 bit numbers
+	x |= x >> 2; // handle 4 bit numbers
+	x |= x >> 4; // handle 8 bit numbers
+	x |= x >> 8; // handle 16 bit numbers
+	x |= x >> 16; // handle 32 bit numbers
+	x++;
+	return x;
+}
+
 void trace()
 {
+	glUseProgram(rayTracingProgram);
+	glm::vec3 eyeRay;
+
+	// set viewing frustum corner rays in shader
+	glUniform3f(eyeUniform, camera.GetPosition().x, camera.GetPosition().y,
+		camera.GetPosition().z);
+	eyeRay = camera.GetEyeRay(-1, -1);
+	glUniform3f(ray00Uniform, eyeRay.x, eyeRay.y, eyeRay.z);
+	eyeRay = camera.GetEyeRay(-1, 1);
+	glUniform3f(ray01Uniform, eyeRay.x, eyeRay.y, eyeRay.z);
+	eyeRay = camera.GetEyeRay(1, -1);
+	glUniform3f(ray10Uniform, eyeRay.x, eyeRay.y, eyeRay.z);
+	eyeRay = camera.GetEyeRay(1, 1);
+	glUniform3f(ray11Uniform, eyeRay.x, eyeRay.y, eyeRay.z);
+
+	// Bind Level 0 of framebuffer texture as writable image in shader
+	glBindImageTexture(0, frameBufferTexuture, 0, false, 0, 
+		GL_WRITE_ONLY, GL_RGBA32F);
+
+	// Invocation dimension
+	int worksizeX = NextPowerOfTwo(width);
+	int worksizeY = NextPowerOfTwo(height);
+
+	// Invoke Compute dimension
+	glDispatchCompute(worksizeX / workGroupSizeX,
+		worksizeY / workGroupSizeY, 1);
+
+	// Reset image binding
+	glBindImageTexture(0, 0, 0, false, 0, GL_READ_WRITE, GL_RGBA32F);
+	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+	glUseProgram(0);
+
+	// Draw rendered image
+	glUseProgram(quadProgram);
+	glBindVertexArray(vertexArrayObject);
+	glBindTexture(GL_TEXTURE_2D, frameBufferTexuture);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindVertexArray(0);
+	glUseProgram(0);
 
 }
 
@@ -399,6 +453,8 @@ void loop()
 	{
 		glfwPollEvents();
 		glViewport(0, 0, width, height);
+
+		trace();
 
 		glfwSwapBuffers(window);
 	}

@@ -32,6 +32,9 @@
     <Text Include="src\shaders\quadVertexShader.txt">
       <Filter>Shaders</Filter>
     </Text>
+    <Text Include="src\shaders\raytracingShader.txt">
+      <Filter>Shaders</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera.h">

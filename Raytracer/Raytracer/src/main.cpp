@@ -79,11 +79,11 @@ static void AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum Shad
     glAttachShader(ShaderProgram, ShaderObj);
 }
 
-GLuint CompileShaders()
+GLuint CompileShadersQuad()
 {
 	//Start the process of setting up our shaders by creating a program ID
 	//Note: we will link all the shaders together into this ID
-    shaderProgramID = glCreateProgram();
+    GLuint shaderProgramID = glCreateProgram();
     if (shaderProgramID == 0) {
         fprintf(stderr, "Error creating shader program\n");
         exit(1);
@@ -119,6 +119,49 @@ GLuint CompileShaders()
 	// Finally, use the linked shader program
 	// Note: this program will stay in effect for all draw calls until you replace it with another or explicitly disable its use
     glUseProgram(shaderProgramID);
+
+	return shaderProgramID;
+}
+
+GLuint CompileShadersRay()
+{
+	//Start the process of setting up our shaders by creating a program ID
+	//Note: we will link all the shaders together into this ID
+	GLuint shaderProgramID = glCreateProgram();
+	if (shaderProgramID == 0) {
+		fprintf(stderr, "Error creating shader program\n");
+		exit(1);
+	}
+
+	// Create two shader objects, one for the vertex, and one for the fragment shader
+	AddShader(shaderProgramID, "../Raytracer/src/shaders/raytracingShader.txt", GL_COMPUTE_SHADER);
+
+	GLint Success = 0;
+	GLchar ErrorLog[1024] = { 0 };
+
+
+	// After compiling all shader objects and attaching them to the program, we can finally link it
+	glLinkProgram(shaderProgramID);
+	// check for program related errors using glGetProgramiv
+	glGetProgramiv(shaderProgramID, GL_LINK_STATUS, &Success);
+	if (Success == 0) {
+		glGetProgramInfoLog(shaderProgramID, sizeof(ErrorLog), NULL, ErrorLog);
+		fprintf(stderr, "Error linking shader program: '%s'\n", ErrorLog);
+		exit(1);
+	}
+
+	// program has been successfully linked but needs to be validated to check whether the program can execute given the current pipeline state
+	glValidateProgram(shaderProgramID);
+	// check for program related errors using glGetProgramiv
+	glGetProgramiv(shaderProgramID, GL_VALIDATE_STATUS, &Success);
+	if (!Success) {
+		glGetProgramInfoLog(shaderProgramID, sizeof(ErrorLog), NULL, ErrorLog);
+		fprintf(stderr, "Invalid shader program: '%s'\n", ErrorLog);
+		exit(1);
+	}
+	// Finally, use the linked shader program
+	// Note: this program will stay in effect for all draw calls until you replace it with another or explicitly disable its use
+	glUseProgram(shaderProgramID);
 
 	return shaderProgramID;
 }
@@ -264,14 +307,27 @@ int eyeUniform, ray00Uniform, ray10Uniform, ray01Uniform, ray11Uniform;
 // Creating the shader program that actually does the ray tracing
 GLuint CreateRayTracingProgram()
 {
-	return CompileShaders();
+	return CompileShadersRay();
 }
 
 // Initialise Ray Tracing Program
-GLuint InitRayTracingProgram()
+void InitRayTracingProgram()
 {
 	glUseProgram(rayTracingProgram);
-	
+
+	glUseProgram(0);
+}
+
+GLuint CreateQuadProgram()
+{
+	return CompileShadersQuad();
+}
+
+void InitQuadProgram()
+{
+	glUseProgram(quadProgram);
+	int texUniform = glGetUniformLocation(quadProgram, "tex");
+	glUniform1i(texUniform, 0);
 	glUseProgram(0);
 }
 
@@ -316,8 +372,10 @@ void init()
 
 	// Create Compute Shader Program
 	rayTracingProgram = CreateRayTracingProgram();
+	InitRayTracingProgram();
 
 	// Create Quad shader Program
+	quadProgram = CreateQuadProgram();
 
 	camera = CCamera1();
 	camera.SetFrustumPerspective(60.0f, (float)width / height, 1.0f, 2.0f);

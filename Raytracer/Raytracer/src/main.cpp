@@ -170,10 +170,6 @@ GLuint CompileShadersRay()
 // VBO Functions - click on + to expand
 #pragma region VBO_FUNCTIONS
 
-
-
-
-
 void generateObjectBufferTeapot () {
 	GLuint vp_vbo = 0;
 
@@ -303,6 +299,7 @@ void QuadFullScreenVAO()
 
 GLuint rayTracingProgram, quadProgram;
 int eyeUniform, ray00Uniform, ray10Uniform, ray01Uniform, ray11Uniform;
+GLint workGroupSizeX, workGroupSizeY;
 
 // Creating the shader program that actually does the ray tracing
 GLuint CreateRayTracingProgram()
@@ -314,7 +311,15 @@ GLuint CreateRayTracingProgram()
 void InitRayTracingProgram()
 {
 	glUseProgram(rayTracingProgram);
-
+	GLint params[3];
+	glGetProgramiv(rayTracingProgram, GL_COMPUTE_WORK_GROUP_SIZE, params);
+	workGroupSizeX = params[0];
+	workGroupSizeY = params[1];
+	eyeUniform = glGetUniformLocation(rayTracingProgram, "eye");
+	ray00Uniform = glGetUniformLocation(rayTracingProgram, "ray00");
+	ray10Uniform = glGetUniformLocation(rayTracingProgram, "ray10");
+	ray01Uniform = glGetUniformLocation(rayTracingProgram, "ray01");
+	ray11Uniform = glGetUniformLocation(rayTracingProgram, "ray11");
 	glUseProgram(0);
 }
 
@@ -379,7 +384,8 @@ void init()
 
 	camera = CCamera1();
 	camera.SetFrustumPerspective(60.0f, (float)width / height, 1.0f, 2.0f);
-	camera.SetLookAt(glm::vec3(3.0f, 2.0f, 7.0f), glm::vec3(0.0f, 0.5f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	camera.SetLookAt(glm::vec3(3.0f, 2.0f, 7.0f), glm::vec3(0.0f, 0.5f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 void trace()

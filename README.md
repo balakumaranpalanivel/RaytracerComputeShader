@@ -1,3 +1,11 @@
-ThreeDEditor
+# Raytracer 
 
-Copy and paste the freeglut and glew dlls from dependencies folder into Debug/Release build folders as required
+Implementation of a Realtime Raytracer
+
+## Features
+
+* Implemented Raytracing using OpenGL Compute Shader
+
+### Demo
+
+* Demo - Coming Soon (Working on getting the camera orientation right!)
